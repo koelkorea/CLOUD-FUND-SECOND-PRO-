@@ -1,0 +1,103 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!-- core -->
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
+<!-- 국제화 -->
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+	<meta name="keywords" content="포탈, 유도, 검색어, 넣으면, 됨">
+	<meta name="description" content="창의적인 시도를 함께 실현시키는 펀딩 커뮤니티 HAO에서 다양한 분야 크리에이터들의 프로젝트를 밀어주세요.">
+
+	<!-- jQuery -->
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+	<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+	<script src="/HAO/bootstrap/bootstrap.min.css"></script>
+
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="/HAO/css/projectnormalize.css">
+	<link rel="stylesheet" type="text/css" href="/HAO/css/projectbase.css">
+
+<title>HAO</title>
+</head>
+
+<body>
+
+<!-- header -->
+      <header>
+         <div class="container">
+            <div class="gnb_inner">
+               <div class="gnb_gohome">
+                  <a href="index.html"> <span>HAO</span>
+                  </a>
+               </div>
+               <div class="gnb_depth">
+                  <ul class="gnb_depth01_lst in-block">
+                     <li><a href="#"> <span>메뉴1</span>
+                     </a></li>
+                     <li><a href="#"> <span>메뉴2</span>
+                     </a></li>
+                  </ul>
+               </div>
+               <div class="gnb_tool_wrap">
+                  <ul class="gnb_toolbar_lst in-block">
+                     <li><a href="#"> <span></span>
+                     </a></li>
+                     <li><a href="#"> <span></span>
+                     </a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </header>
+      <!-- header -->
+
+
+
+  <!--  컨테이너 -->
+  <div class="container">
+	  <img class="mb-4" src="" alt="" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal text-center">로그인</h1>
+    <label for="inputEmail" class="visually-hidden">ID</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="이메일 주소 입력" required autofocus>
+    <label for="inputPassword" class="visually-hidden">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="비밀번호 입력" required>
+	<p></p>
+    <button class="w-100 btn btn-lg btn-dark" type="submit">로그인</button>
+    <p></p>
+  </form>
+    </div>
+    <!-- //row -->
+
+ 
+  <!--  // 컨테이너 -->
+
+      <!-- footer -->
+      <div id="footer">
+         <div class="footer_outer">
+            <div class="container">
+               <div class="footer_inner">
+                  <h6>여기에 적고 싶은 글 적으면 됨</h6>
+                  <h6>copyright ⓒ HAO. all rights reserved.</h6>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- footer -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/HAO/jquery/jquery.min.js"></script>
+  <script src="/HAO/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,184 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+
+
+import cmn.ConnectionMaker;
+import cmn.DTO;
+import cmn.JDBCUtil;
+import cmn.StringUtil;
+import cmn.WorkStandard;
+import vo.MemberVO;
+
+public class MemberDao implements WorkStandard {
+	
+	final Logger LOG = Logger.getLogger(MemberDao.class);
+	
+	final static String DB_URL="jdbc:oracle:thin:@211.238.142.124:1521:xe";	
+	final static String USER_ID="HAO";
+	final static String USER_PASS="hao2";
+	
+	public MemberDao() {
+		
+		
+	}
+
+	@Override
+	public int doInsert(DTO param) {
+		int flag=0;
+		
+		
+		MemberVO inVO = (MemberVO) param;
+		
+		Connection connection=null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			connection = ConnectionMaker.getConnection();
+			LOG.debug("2.데이터베이스 커넥션:"+connection);
+			
+			StringBuffer sb= new StringBuffer(1000);
+			
+			 sb.append("INSERT INTO member (\n ");
+			 sb.append("m_id,                  \n ");
+			 sb.append("m_name,                \n ");
+			 sb.append("m_passwd,            \n ");
+			 sb.append("m_status,              \n ");
+			 sb.append("m_phone,               \n ");
+			 sb.append("m_addr,                \n ");
+			 sb.append("m_card,                \n ");
+			 sb.append("reg_dt,                \n ");
+			 sb.append("mod_id,                \n ");
+			 sb.append("mod_dt                 \n ");
+			 sb.append(")                      \n ");
+			 sb.append("VALUES (               \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?                      \n ");
+			 sb.append(")                      \n ");
+			
+			 pstmt=connection.prepareStatement(sb.toString());
+			
+			 LOG.debug("sb.toString() \n"+sb.toString());
+			 
+			 pstmt.setString(1, inVO.getM_id());	
+			 pstmt.setString(2, inVO.getM_name());
+			 pstmt.setString(3, inVO.getM_passwd());
+			 pstmt.setString(4, inVO.getM_status());
+			 pstmt.setString(5, inVO.getM_phone());
+			 pstmt.setString(6, inVO.getM_addr());
+			 pstmt.setString(7, inVO.getM_card());
+			 pstmt.setString(8, inVO.getReg_dt());
+			 pstmt.setString(9, inVO.getMod_id());
+			 pstmt.setString(10, inVO.getMod_dt());
+			 
+			 flag = pstmt.executeUpdate();
+			 LOG.debug("4.쿼리 실행 flag"+flag);
+		}catch(SQLException e) {
+			LOG.debug("2.SQLException e :"+e.getMessage());
+			
+			e.printStackTrace();
+	
+		}finally {
+			
+			JDBCUtil.close(pstmt);
+			JDBCUtil.close(connection);
+		
+		}
+		
+		
+		return flag;
+	}//doInsert
+	
+	@Override
+	public int doUpdate(DTO param) {
+		
+				int flag = 0;
+				MemberVO inVO = (MemberVO) param;
+				LOG.debug("0 param : " + param);
+				
+				Connection connection = null;
+				PreparedStatement pstmt = null;
+				
+				try {
+					connection = ConnectionMaker.getConnection();
+					LOG.debug("2. 데이터베이스 커넥션 : " + connection);
+					
+					StringBuffer sb = new StringBuffer(1000);
+					sb.append("UPDATE member       \n");
+					sb.append("SET m_name = ?,     	\n");
+					sb.append("	   m_passwd = ?,    \n");
+					sb.append("	   m_status = ?,    \n");
+					sb.append("	   m_phone = ?,     \n");
+					sb.append("	   m_addr = ?,      \n");
+					sb.append("    m_card = ?,		\n");
+					sb.append("	   reg_dt = ?,      \n");
+					sb.append("	   mod_id = ?,      \n");
+					sb.append("	   mod_dt = ?      \n");
+					sb.append("WHERE m_id = ?      	\n");
+					LOG.debug("3. 쿼리 실행(DB) StringBuffer : " + sb.toString());
+					
+					pstmt = connection.prepareStatement(sb.toString());			
+
+					pstmt.setString(1, inVO.getM_name());
+					pstmt.setString(2, inVO.getM_passwd());
+					pstmt.setString(3, inVO.getM_status());
+					pstmt.setString(4, inVO.getM_phone());
+					pstmt.setString(5, inVO.getM_addr());
+					pstmt.setString(6, inVO.getM_card());
+					pstmt.setString(7, inVO.getReg_dt());
+					pstmt.setString(8, inVO.getMod_id());
+					pstmt.setString(9, inVO.getMod_dt());
+					pstmt.setString(10, inVO.getM_id());
+					
+					LOG.debug("4. 쿼리 실행(JAVA) PreparedStatement : " + pstmt);
+
+					flag = pstmt.executeUpdate();
+					LOG.debug("5. 쿼리 실행 결과 falg : " + flag);
+				} catch (SQLException e) {
+					LOG.debug("SQLException : " + e.getMessage());
+					e.printStackTrace();
+				} finally {
+
+					JDBCUtil.close(pstmt);
+					
+					JDBCUtil.close(connection);
+				}
+
+				return flag;
+	}//doUpdate
+
+
+	@Override
+	public DTO doSelectOne(DTO param) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<?> doRetrieve(DTO param) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public int doDelete(DTO param) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

@@ -1,0 +1,128 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!-- core -->
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
+<!-- 국제화 -->
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>회원가입</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/HAO/05.lsh/bootstrap.min_05lsh.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/HAO/05.lsh/shop-homepage.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- 헤더쪽 Navigation 코드 -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">SNIPING CLOUD FUND</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- // 헤더쪽 Navigation 코드-->
+
+  <!--  컨테이너 -->
+  <div class="container">
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="" alt="" width="72" height="72">
+            <h2>회원가입</h2>
+            <p class="lead">회원가입하세요. 가입하면 게시판을 열람할 수 있습니다.</p>
+        </div>
+
+        <div class="col-md-12 order-md-1">
+            <h4 class="mb-3">회원정보</h4>
+            <form class="needs-validation" novalidate th:action="@{/signup}" method="POST">
+
+
+                <div class="mb-3">
+                    <label for="username">아이디 (Email)</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">@</span>
+                        </div>
+                        <input type="text" class="form-control" id="username" placeholder="ex@example.com" required name="m_id">
+                        <div class="invalid-feedback" style="width: 100%;">Your username is required.</div>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="password">비밀번호</label> 
+                    <input type="password" class="form-control" id="password" placeholder="" value="" required name="m_passwd">
+                    <div class="invalid-feedback">유효한 비밀번호가 필요합니다.</div>
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="firstName">이름</label> 
+                    <input type="text" class="form-control" id="real-name" placeholder="" value="" required name="m_name">
+                    <div class="invalid-feedback">유효한 이름을 입력해야합니다.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email">전화번호</label>
+                    <input type="email" class="form-control" id="email" placeholder="" name="m_phone">
+                    <div class="invalid-feedback">올바른 이메일을 입력하세요.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="address">주소</label> <input type="text" class="form-control" id="food" placeholder="" required name="m_addr">
+                    <div class="invalid-feedback"></div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="address">카드정보</label> <input type="text" class="form-control" id="food" placeholder="" required name="m_card">
+                    <div class="invalid-feedback"></div>
+                </div>
+
+                <hr class="mb-4">
+                <button class="btn btn-dark btn-lg btn-block" type="submit">가입하기</button>
+                <hr class="mb-4">
+
+                <footer th:replace="/fragments/semantic :: footer"></footer>
+            </form>
+        </div>
+
+    </div>
+    <!-- //row -->
+
+ 
+  <!--  // 컨테이너 -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/HAO/jquery/jquery.min.js"></script>
+  <script src="/HAO/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

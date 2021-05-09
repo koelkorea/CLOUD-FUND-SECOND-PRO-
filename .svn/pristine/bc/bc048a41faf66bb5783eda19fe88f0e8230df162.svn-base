@@ -1,0 +1,29 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+</head>
+<header>
+	<div class="container">
+		<div class="gnb_inner">
+			<div class="gnb_gohome">
+				<a href="index.html"> <span>HAO</span>
+				</a>
+			</div>
+			<div class="gnb_depth">
+				<ul class="gnb_depth01_lst in-block">
+					<li><a href="#"> <span>메뉴1</span>
+					</a></li>
+					<li><a href="#"> <span>메뉴2</span>
+					</a></li>
+				</ul>
+			</div>
+			<div class="gnb_tool_wrap">
+				<ul class="gnb_toolbar_lst in-block">
+					<li><a href="#"> <span>로그인</span>
+					</a></li>
+					<li><a href="#"> <span>마이페이지</span>
+					</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</header>

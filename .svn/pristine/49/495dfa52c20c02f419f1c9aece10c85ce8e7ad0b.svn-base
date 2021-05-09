@@ -1,0 +1,75 @@
+package dao;
+
+import org.apache.log4j.Logger;
+
+
+import vo.MemberVO;
+
+public class MemberMainTest {
+	
+	final static Logger LOG= Logger.getLogger(SupporterMainTest.class);
+	
+	
+	
+	private MemberVO member01;
+	private MemberVO member02;
+	
+	
+	private MemberDao memberDao;
+	
+	public MemberMainTest() {
+		member01=new MemberVO("aaaaa@naver.com","가나다","85208520","0","","","","","","");
+		member02=new MemberVO("aaaaa@naver.com","ABC","12341234","0","","","","","","");
+		
+		
+		memberDao = new MemberDao();
+	}
+	
+	public static void main(String[] args) {
+		
+		
+		MemberMainTest mbMain = new MemberMainTest();
+		
+		//mbMain.doInsert();
+		mbMain.doUpdate();
+		
+	}
+	
+	
+	public void doInsert() {
+		int flag=0;
+		flag= memberDao.doInsert(member01);
+		LOG.debug("flag"+flag);
+		if(flag==1) {
+			LOG.debug("=================");
+			LOG.debug("회원가입 성공");
+			LOG.debug("=================");
+			
+		}else {
+			LOG.debug("=================");
+			LOG.debug("회원가입 실패");
+			LOG.debug("=================");
+		
+		}
+		
+	}
+	
+	public void doUpdate() {
+		int flag=0;
+		flag= memberDao.doUpdate(member02);
+		LOG.debug("flag"+flag);
+		if(flag==1) {
+			LOG.debug("=================");
+			LOG.debug("수정 성공");
+			LOG.debug("=================");
+			
+		}else {
+			LOG.debug("=================");
+			LOG.debug("수정 실패");
+			LOG.debug("=================");
+		
+		}
+	}
+	
+	
+}

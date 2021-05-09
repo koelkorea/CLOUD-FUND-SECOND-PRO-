@@ -1,0 +1,89 @@
+package service;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import cmn.DTO;
+import dao.ProjectDao;
+import vo.ProjectVO;
+
+public class ProjectService {
+	private final Logger LOG = Logger.getLogger(ProjectService.class);
+	private ProjectDao projectDao;
+	
+	public ProjectService () {
+		
+		projectDao= new ProjectDao();
+	}
+	
+	
+	/**
+	 * 프로젝트 등록
+	 * @param param
+	 * @return 성공:1,실패:0
+	 */
+	public int doInsert(DTO param) {
+	
+		return projectDao.doInsert(param);
+		
+	}
+	
+	
+	
+	/**
+	 * 프로젝트 삭제
+	 * @param param
+	 * @return 성공:1,실패:0
+	 */
+	public int doDelete(DTO param) {
+		
+		return projectDao.doDelete(param);
+	}
+	
+	
+	/**
+	 * 프로젝트 수정
+	 * @param param
+	 * @return 성공:1,실패:0
+	 */
+	public int doUpdate(DTO param) {
+		
+		return projectDao.doUpdate(param);
+	}
+	
+	
+	/**
+	 * 프로젝트 상태 수정
+	 * @param param
+	 * @return 성공:1,실패:0
+	 */
+	public int doChangeStatus(DTO param) {
+		return projectDao.doChangeStatus(param);
+		
+	}
+	
+	
+	/**
+	 * 프로젝트 단건 조회
+	 * @param param
+	 * @return 성공:1,실패:0
+	 */
+	public ProjectVO doSelectOne(DTO param) {
+		return projectDao.doSelectOne(param);
+	}
+	
+	
+	
+	/**
+	 * 프로젝트 목록 조회
+	 * @param param
+	 * @return 성공:1,실패:0
+	 */
+	public List<ProjectVO> doRetrieve(DTO param) {
+		return projectDao.doRetrieve(param);
+	}
+	
+	
+	
+}

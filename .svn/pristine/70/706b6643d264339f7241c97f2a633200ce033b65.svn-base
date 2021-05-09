@@ -1,0 +1,204 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+
+
+import cmn.ConnectionMaker;
+import cmn.DTO;
+import cmn.JDBCUtil;
+import cmn.StringUtil;
+import cmn.WorkStandard;
+import vo.ProjectVO;
+import vo.SupporterVO;
+
+public class SupporterDao implements WorkStandard{
+
+	final Logger LOG = Logger.getLogger(SupporterDao.class);
+	
+	final static String DB_URL="jdbc:oracle:thin:@211.238.142.124:1521:xe";	
+	final static String USER_ID="HAO";
+	final static String USER_PASS="hao2";
+
+	
+	public SupporterDao() {
+		
+		
+	}
+	
+	/**
+	 * 후원하기
+	 * @param param
+	 * @return 성공:1, 실패:0
+	 */
+
+	@Override
+	public int doInsert(DTO param) {
+		int flag=0;
+		
+		
+		SupporterVO inVO = (SupporterVO) param;
+		Connection connection=null;
+		PreparedStatement pstmt = null;
+		try {
+			connection = ConnectionMaker.getConnection();
+			LOG.debug("2.데이터베이스 커넥션 구함:"+connection);
+			StringBuffer sb= new StringBuffer(1000);
+			 sb.append("INSERT INTO supporter (\n ");
+			 sb.append("s_seq,                 \n ");
+			 sb.append("s_m_id,                \n ");
+			 sb.append("s_p_seq,               \n ");
+			 sb.append("s_addr,                \n ");
+			 sb.append("s_fund,                \n ");
+			 //sb.append("s_date,                \n ");
+			// sb.append("s_status,              \n ");
+			 sb.append("mod_id,                \n ");
+			 sb.append("mod_dt                 \n ");
+			 sb.append(")                      \n ");
+			 sb.append("VALUES (               \n ");
+			 //sb.append("?,                     \n ");
+			 //sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?,                     \n ");
+			 sb.append("?                      \n ");
+			 sb.append(")                      \n ");
+			
+			 pstmt=connection.prepareStatement(sb.toString());
+			
+			 LOG.debug("sb.toString() \n"+sb.toString());
+				
+			 
+			 String sPK="s"+StringUtil.getPK("");
+			 inVO.setS_seq(sPK);
+			 
+			 pstmt.setString(1, inVO.getS_seq());	
+			 pstmt.setString(2, inVO.getS_m_id());
+			 pstmt.setString(3, inVO.getS_p_seq());
+			 pstmt.setString(4, inVO.getS_addr());
+			 pstmt.setInt(5, inVO.getS_fund());
+			 //pstmt.setString(6, inVO.getS_date());
+			 //pstmt.setString(7, inVO.getS_status());
+			 pstmt.setString(6, inVO.getMod_id());
+			 pstmt.setString(7, inVO.getMod_dt());
+			 
+			 flag = pstmt.executeUpdate();
+			 LOG.debug("4.쿼리 실행 flag"+flag);
+		}catch(SQLException e) {
+			LOG.debug("2.SQLException e :"+e.getMessage());
+			
+			e.printStackTrace();
+	
+		}finally {
+			
+			//6.PreparedStatement 자원 반납
+			JDBCUtil.close(pstmt);
+			//7.Connection 반납
+			JDBCUtil.close(connection);
+		
+		}
+		
+		
+		return flag;
+	}//doInsert
+	
+	
+	
+	
+	/**
+	 * 후원 취소
+	 * @param param
+	 * @return 성공:1, 실패:0
+	 */
+	
+	
+	@Override
+	public int doUpdate(DTO param) {
+		int flag=0;
+		
+		
+		SupporterVO inVO = (SupporterVO) param;
+		Connection connection=null;
+		PreparedStatement pstmt = null;
+		try {
+			connection = ConnectionMaker.getConnection();
+			LOG.debug("2.데이터베이스 커넥션 구함:"+connection);
+			StringBuffer sb = new StringBuffer(50);
+			
+			sb.append("UPDATE supporter \n");
+			sb.append("SET s_status ='2'\n");
+			sb.append("WHERE s_seq=?    \n");
+
+			 pstmt=connection.prepareStatement(sb.toString());
+			
+			 LOG.debug("sb.toString() \n"+sb.toString());
+				
+			 
+			 pstmt.setString(1, inVO.getS_seq());	
+			 
+			 flag = pstmt.executeUpdate();
+			 LOG.debug("4.쿼리 실행 flag"+flag);
+		}catch(SQLException e) {
+			LOG.debug("2.SQLException e :"+e.getMessage());
+			
+			e.printStackTrace();
+	
+		}finally {
+			
+			//6.PreparedStatement 자원 반납
+			JDBCUtil.close(pstmt);
+			//7.Connection 반납
+			JDBCUtil.close(connection);
+		
+		}
+		
+		
+		return flag;
+	}
+
+	
+	
+	
+	
+	
+	@Override
+	public List<SupporterVO> doRetrieve(DTO param) {
+		List<SupporterVO> list = new ArrayList<SupporterVO>();
+		SupporterVO inVO = (SupporterVO) param;
+		
+		
+		
+		return null;
+	}
+
+	public ProjectVO doSelectOne(DTO param) {
+		ProjectVO project = null;
+		
+		return project;
+	}
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	@Override
+	public int doDelete(DTO param) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+}

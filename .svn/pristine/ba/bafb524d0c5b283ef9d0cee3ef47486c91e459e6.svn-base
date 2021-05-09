@@ -1,0 +1,45 @@
+2021-03-12 13:13:00,885 DEBUG [main] dao.ProjectDao    (ProjectDao.java:325)     - 0. param : ProjectVO [p_seq=15, p_m_id=id_15, p_title=title_15, p_thumb=thumb_15, p_name=name_15, p_contents=contents_15, p_cate=cate_15, p_tag=tag_15, p_status=, p_opendate=, p_closedate=21/03/16, p_minprice=100000, p_account=account_15, p_goalfund=10000000, mod_id=, mod_dt=, toString()=DTO [num=0, totalCnt=0, msgFlag=0, msg=null, sumFund=0, percent=0, remainDate=0, supporterNum=0]]
+2021-03-12 13:13:01,002 DEBUG [main] cmn.ConnectionMaker (ConnectionMaker.java:59)     - 1.JDBC드라이버 로딩 성공
+2021-03-12 13:13:01,500 DEBUG [main] cmn.ConnectionMaker (ConnectionMaker.java:61)     - 2.데이터베이스 커넥션 구함:oracle.jdbc.driver.T4CConnection@5dfcfece
+2021-03-12 13:13:01,501 DEBUG [main] dao.ProjectDao    (ProjectDao.java:337)     - 2. 데이터베이스 커넥션 : oracle.jdbc.driver.T4CConnection@5dfcfece
+2021-03-12 13:13:01,501 DEBUG [main] dao.ProjectDao    (ProjectDao.java:379)     - 3. 쿼리 실행(DB) StringBuffer : 	SELECT t1.p_seq,                                                    
+		   t1.p_cate,                                                   
+		   t1.p_title,                                                  
+		   t1.p_m_id,                                              	    
+		   t1.p_thumb,                                                  
+		   -- 총 후원금                                                    
+		   NVL((                                                        
+	        SELECT SUM(t2.s_fund)                                       
+	        FROM supporter t2                                           
+	        WHERE t1.p_seq = t2.s_p_seq                                 
+	        AND t1.p_seq = ?                                            
+	       ), 0) sum_fund,                                              
+		   -- 달성률                                                      
+		   NVL((                                                        
+	        SELECT TRUNC((SUM(t2.s_fund) / t1.p_goalfund) * 100)        
+	        FROM supporter t2                                           
+	        WHERE t1.p_seq = t2.s_p_seq                                 
+	        AND t1.p_seq = ?                                            
+	       ), 0) percent,                                               
+		   -- 남은 시간                                                    
+		   NVL((                                                        
+	        SELECT (p_closedate - TRUNC(SYSDATE))                       
+	        FROM project                                                
+	        WHERE p_seq = ?                                             
+	       ), 0) remain_date,                                           
+		   -- 후원자 수                                                    
+		   NVL((                                                      	
+	        SELECT count(DISTINCT t2.s_m_id)                            
+	        FROM supporter t2                                           
+	        WHERE t1.p_seq = t2.s_p_seq                                 
+	        AND t1.p_seq = ?                                            
+	       ), 0) supporter_num,                                         
+		   t1.p_status,                                                 
+		   t1.p_contents,                                               
+		   t1.p_minprice                                                
+	FROM PROJECT t1                                                     
+	WHERE t1.p_seq = ?                                                  
+
+2021-03-12 13:13:01,641 DEBUG [main] dao.ProjectDao    (ProjectDao.java:393)     - 4. 쿼리 실행(JAVA) ResultSet : oracle.jdbc.driver.ForwardOnlyResultSet@7d20d0b
+2021-03-12 13:13:01,646 DEBUG [main] dao.ProjectDao    (ProjectDao.java:413)     - project : ProjectVO [p_seq=15, p_m_id=id_15, p_title=title_15, p_thumb=thumb_15, p_name=null, p_contents=contents_15, p_cate=cate_15, p_tag=null, p_status=0, p_opendate=null, p_closedate=null, p_minprice=100000, p_account=null, p_goalfund=0, mod_id=null, mod_dt=null, toString()=DTO [num=0, totalCnt=0, msgFlag=0, msg=null, sumFund=120000, percent=1, remainDate=4, supporterNum=3]]
+2021-03-12 13:13:01,654 DEBUG [main] test.ProjectJdbcTestMain (ProjectJdbcTestMain.java:113)     - 조회 성공

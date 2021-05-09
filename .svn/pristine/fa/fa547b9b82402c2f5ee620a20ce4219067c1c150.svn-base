@@ -1,0 +1,217 @@
+package controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+
+import com.google.gson.Gson;
+
+import cmn.StringUtil;
+import service.MemberService;
+import vo.MemberVO;
+import vo.MessageVO;
+import vo.SearchVO;
+
+
+
+/**
+ * Servlet implementation class MemberController
+ */
+@WebServlet(
+		description = "회원관리", 
+		urlPatterns = { 
+				"/member/member.do", 
+		})
+public class MemberController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+      
+	private MemberService memberService;
+	final Logger LOG = Logger.getLogger(MemberController.class);
+	
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public MemberController() {
+        super();
+        memberService = new MemberService();
+    }
+
+	/**
+	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		String workDiv = StringUtil.nvl(request.getParameter("work_div"), "doRetrieve");
+		
+		LOG.debug("---------------------");
+		LOG.debug("-workDiv-" + workDiv);
+		LOG.debug("---------------------");
+		
+		switch(workDiv) {
+		case "doRetrieve" : // 조회
+			doRetrieve(request, response);
+			break;
+			
+		case "doSelectOne" : // 조회
+			doSelectOne(request, response);
+			break;
+			
+		case "doInsert":
+			doInsert(request,response);	
+			break;
+		}
+		
+	}
+
+	private void doRetrieve(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//member/member.do?work_div=doRetrieve
+		String searchDiv  = StringUtil.nvl(request.getParameter("search_div"), "");
+		String searchWord = StringUtil.nvl(request.getParameter("search_word"), "");
+		String pageSize   = StringUtil.nvl(request.getParameter("page_size"), "10");
+		String pageNum 	  = StringUtil.nvl(request.getParameter("page_num"), "1");
+		
+		LOG.debug("---------------------");//page_num
+		LOG.debug("-searchDiv-" + searchDiv);
+		LOG.debug("-searchWord-" + searchWord);
+		LOG.debug("-pageSize-" + pageSize);
+		LOG.debug("---------------------");
+		
+		// service에 DTO 전달
+		SearchVO param = new SearchVO();
+		param.setSearchDiv(searchDiv);
+		param.setSearchWord(searchWord);
+		
+		int pageSizeNum = Integer.parseInt(pageSize);
+		param.setPageSize(pageSizeNum);
+		param.setPageNum(Integer.parseInt(pageNum));
+		
+		LOG.debug("-param-" + param);
+		
+		List<MemberVO> list = (List<MemberVO>) this.memberService.doRetrieve(param);
+		LOG.debug("-list.size- : " + list.size());
+		
+		// 해당화면에 DATA 전달
+		LOG.debug("-list- : " + list);
+		
+		// 화면으로 데이터 전달
+		request.setAttribute("list", list);
+		
+		// 화면으로 param 전달
+		request.setAttribute("search", param);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/member/member_list.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+	public void doSelectOne(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LOG.debug("---------------------------------");
+		LOG.debug("- doSelectOne -");
+		LOG.debug("---------------------------------");
+		String m_id = StringUtil.nvl(request.getParameter("m_id"), "");
+		LOG.debug("m_id : " + m_id);
+		
+		MemberVO param = new MemberVO();
+		param.setM_id(m_id);
+		
+		LOG.debug("-param-"+param);
+		
+		MemberVO outVO = (MemberVO) this.memberService.doSelectOne(param);
+		LOG.debug("-param-"+param);
+		
+		//화면으로 데이터 전달
+		request.setAttribute("vo", outVO);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/member/member_mng.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+	public void doInsert(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LOG.debug("---------------------------------");
+		LOG.debug("- doInsert -");
+		LOG.debug("---------------------------------");
+		
+		String m_id = StringUtil.nvl(request.getParameter("m_id"), "");
+		String m_name = StringUtil.nvl(request.getParameter("m_name"), "");
+		String m_passwd = StringUtil.nvl(request.getParameter("m_passwd"), "");
+		String m_status = StringUtil.nvl(request.getParameter("m_status"), "");
+		String m_phone = StringUtil.nvl(request.getParameter("m_phone"), "");
+		String m_addr = StringUtil.nvl(request.getParameter("m_addr"), "");
+		String m_card = StringUtil.nvl(request.getParameter("m_card"), "");
+		String mod_id = StringUtil.nvl(request.getParameter("mod_id"), "");
+		
+		LOG.debug("---------------------------------");
+		LOG.debug("m_id : " + m_id);
+		LOG.debug("m_name : " + m_name);
+		LOG.debug("m_passwd : " + m_passwd);
+		LOG.debug("m_status : " + m_status);
+		LOG.debug("m_phone : " + m_phone);
+		LOG.debug("m_addr : " + m_addr);
+		LOG.debug("m_card : " + m_card);
+		LOG.debug("mod_id : " + mod_id);
+		LOG.debug("---------------------------------");
+		
+		// VO Set
+		MemberVO param = new MemberVO();
+		param.setM_id(m_id);
+		param.setM_name(m_name);
+		param.setM_passwd(m_passwd);
+		param.setM_status(m_status);
+		param.setM_phone(m_phone);
+		param.setM_addr(m_addr);
+		param.setM_card(m_card);
+		param.setMod_id(mod_id);
+		LOG.debug("param : " + param);
+		
+		int flag = memberService.doInsert(param);
+		LOG.debug("flag : " + flag);
+		
+		MessageVO msgVO = new MessageVO();
+		msgVO.setMsgId(String.valueOf(flag));
+		
+		String msg = "";
+		
+		if (flag == 1) {
+			msg = "회원가입에 성공하셨습니다";
+		} else {
+			msg = "회원가입에 실패하셨습니다";
+		}
+		LOG.debug("msg : " + msg);
+		
+		msgVO.setMsgContents(msg);
+		
+		// VO to JSON
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(msgVO);
+		LOG.debug("jsonString : " + jsonString);
+		
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		out.print(jsonString);
+		
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
